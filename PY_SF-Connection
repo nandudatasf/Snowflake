@@ -1,0 +1,24 @@
+!pip install snowflake-connector-python
+
+import snowflake.connector as sf
+import pandas as pdpy
+
+conn = sf.connect(user='user',
+                    password='password',
+                    account='zk85032.south-central-us.azure',
+                    role='ACCOUNTADMIN',
+                    warehouse='COMPUTE_WH',
+                    database='SNOWFLAKE_SAMPLE_DATA',
+                    schema='TPCH_SF1'
+                    )
+
+
+cursor = conn.cursor()
+str_query = f""" 
+            SELECT *
+            FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER
+"""
+cursor.execute(str_query)
+
+df = cursor.fetch_pandas_all()
+display(df)
